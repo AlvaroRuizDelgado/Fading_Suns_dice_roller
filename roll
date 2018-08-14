@@ -53,6 +53,8 @@ def roll(argv):
     if (roll_type == "d20"):
         die_roll = randint(1,die_range)
         roll_result = "not assigned"
+        victory_dice = 0
+        victory_points = 0
         if (die_roll > difficulty) or (die_roll >=19):
             if (die_roll == CRITICAL_FAIL):
                 font_roll_color = bcolors.GREY
@@ -69,20 +71,33 @@ def roll(argv):
             victory_points = max( 1, victory_dice )
             bonus_dice = max( 0, math.ceil((difficulty-20)/3 ))
             if (die_roll == difficulty):
-                victory_dice *= 2
                 victory_points *= 2
-            roll_result = "+"+str(victory_points)+" VP / +"+str(victory_dice+bonus_dice)+" dice"
+                victory_dice *= 2
+            victory_dice += bonus_dice
+            roll_result = "+"+str(victory_points)+" VP / +"+str(victory_dice)+" dice"
         print(font_roll_color, die_roll, bcolors.LIGHT_RED, "-->", font_result_color, roll_result, bcolors.GREY)
+        return(   { 'die_range': die_range,
+                    'dice_number': dice_number,
+                    'difficulty': difficulty,
+                    'die_roll': die_roll,
+                    'victory_points': victory_points,
+                    'victory_dice': victory_dice }   )
+
     elif (roll_type == "d6"):
         results = []
         success_rolls = 0
-        for i in range (0, dice_number):
+        for _ in range (0, dice_number):
             die_roll = randint(1,die_range)
             results.append(die_roll)
             if (die_roll <= difficulty):
                 success_rolls += 1
         results.sort()
         print(bcolors.YELLOW, results[0:success_rolls], bcolors.GREY, results[success_rolls:], bcolors.LIGHT_RED, "-->", bcolors.ORANGE, success_rolls, bcolors.GREY)
+        return(   { 'die_range': die_range,
+                    'dice_number': dice_number,
+                    'difficulty': difficulty,
+                    'die_roll': die_roll,
+                    'success_rolls': success_rolls }   )
 
 def print_help():
     print("    Pass the type of die to roll, followed by either")
