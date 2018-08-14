@@ -44,3 +44,10 @@ Examples:
 ./roll d6 6
 ./roll d6 7 -d 3
 ```
+
+## Container use
+
+```shell
+docker build -t fading_suns_dice .
+docker run --rm -it fading_suns_dice
+```
