@@ -12,7 +12,7 @@ ALWAYS_FAIL = 19
 def roll(argv):
     if (len(argv) == 0 or "--help" in argv or "-h" in argv):
         print_help()
-        sys.exit('help')
+        sys.exit(0)
 
     # Roll characteristics
     die_range = 20
@@ -31,7 +31,7 @@ def roll(argv):
         difficulty = 4
     else:
         print("Error: The accepted values are 'd20' and 'd6'")
-        sys.exit('wrong input')
+        sys.exit(1)
 
     while len(argv) > 0:
         if (argv[0] == "--difficulty" or argv[0] == "-d"):

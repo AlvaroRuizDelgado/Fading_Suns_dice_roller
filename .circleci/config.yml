@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/python:3.7
     working_directory: ~/repo
@@ -30,18 +30,54 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-        
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
+
       - run:
           name: run tests
           command: |
             . venv/bin/activate
             coverage run test_roll.py
+            coverage html
 
       - store_artifacts:
           path: htmlcov
           destination: test-coverage
+
+  docker-upload:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: install docker
+          command: |
+            sudo apt-get install docker
+
+      - run:
+          name: build and push container
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            container_tag=$DOCKER_USER"/fading_suns_dice"
+            docker build -t $container_tag .
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push $container_tag
+
+workflows:
+  version: 2
+  test-and-upload-container:
+    jobs:
+      - test
+      - docker-upload:
+          requires:
+            - test
