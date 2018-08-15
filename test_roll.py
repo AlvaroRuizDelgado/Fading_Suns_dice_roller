@@ -32,18 +32,18 @@ class TestRoll(unittest.TestCase):
     def test_help(self):
         with self.assertRaises(SystemExit) as cm:
             roll([])
-        self.assertEquals(cm.exception.code, 'help')
+        self.assertEquals(cm.exception.code, 0)
         with self.assertRaises(SystemExit) as cm:
             roll(['-h'])
-        self.assertEquals(cm.exception.code, 'help')
+        self.assertEquals(cm.exception.code, 0)
         with self.assertRaises(SystemExit) as cm:
             roll(['--help'])
-        self.assertEquals(cm.exception.code, 'help')
+        self.assertEquals(cm.exception.code, 0)
 
     def test_wrong_input(self):
         with self.assertRaises(SystemExit) as cm:
             roll(['d15', 10])
-        self.assertEqual(cm.exception.code, 'wrong input')
+        self.assertEqual(cm.exception.code, 1)
 
     @mock.patch('roll.randint')
     def test_d20_working_mock(self, mock_randint):
