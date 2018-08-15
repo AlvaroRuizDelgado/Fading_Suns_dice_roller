@@ -1,4 +1,4 @@
-# Fading Suns 2E dice roller
+#Fading Suns 2E dice roller
 
 Script to roll dice for the 1st and 2nd editions of the roleplaying game.
 
@@ -50,4 +50,18 @@ Examples:
 ```shell
 docker build -t fading_suns_dice .
 docker run --rm -it fading_suns_dice
+```
+
+## Run the tests
+
+```shell
+python3 test_roll.py
+```
+
+Or if you install [coverage.py](https://coverage.readthedocs.io/en/latest/):
+```shell
+coverage run test_roll.py
+coverage report -m
+coverage html
+open htmlcov/index.html
 ```

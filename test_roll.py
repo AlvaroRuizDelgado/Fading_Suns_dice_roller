@@ -10,7 +10,9 @@ class TestRoll(unittest.TestCase):
         {'die_range': 20, 'dice_number': 1, 'difficulty': 10, 'die_roll': 20, 'victory_points': 0, 'victory_dice': 0},
         {'die_range': 20, 'dice_number': 1, 'difficulty': 15, 'die_roll': 14, 'victory_points': 4, 'victory_dice': 4},
         {'die_range': 20, 'dice_number': 1, 'difficulty': 8, 'die_roll': 12, 'victory_points': 0, 'victory_dice': 0},
-        {'die_range': 20, 'dice_number': 1, 'difficulty': 27, 'die_roll': 15, 'victory_points': 5, 'victory_dice': 8}
+        {'die_range': 20, 'dice_number': 1, 'difficulty': 27, 'die_roll': 15, 'victory_points': 5, 'victory_dice': 8},
+        {'die_range': 20, 'dice_number': 1, 'difficulty': 20, 'die_roll': 19, 'victory_points': 0, 'victory_dice': 0},
+        {'die_range': 20, 'dice_number': 1, 'difficulty': 20, 'die_roll': 20, 'victory_points': 0, 'victory_dice': 0}
     ]
 
     examples_d6 = [ 
@@ -26,7 +28,23 @@ class TestRoll(unittest.TestCase):
 
     def setUp(self):
         pass
- 
+
+    def test_help(self):
+        with self.assertRaises(SystemExit) as cm:
+            roll([])
+        self.assertEquals(cm.exception.code, 'help')
+        with self.assertRaises(SystemExit) as cm:
+            roll(['-h'])
+        self.assertEquals(cm.exception.code, 'help')
+        with self.assertRaises(SystemExit) as cm:
+            roll(['--help'])
+        self.assertEquals(cm.exception.code, 'help')
+
+    def test_wrong_input(self):
+        with self.assertRaises(SystemExit) as cm:
+            roll(['d15', 10])
+        self.assertEqual(cm.exception.code, 'wrong input')
+
     @mock.patch('roll.randint')
     def test_d20_working_mock(self, mock_randint):
         mock_randint.return_value = 10
