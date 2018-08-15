@@ -41,3 +41,9 @@ jobs:
       - store_artifacts:
           path: htmlcov
           destination: test-coverage
+
+workflows:
+  version: 2
+  test-and-upload-container:
+    jobs:
+      - test
