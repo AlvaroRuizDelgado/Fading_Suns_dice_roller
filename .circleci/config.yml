@@ -63,7 +63,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             container_tag=$DOCKER_USER"/fading_suns_dice"
-            docker build -t $container_tag
+            docker build -t $container_tag .
             docker login -u $DOCKER_USER -p $DOCKER_PWD
             docker push $container_tag
 
@@ -73,3 +73,5 @@ workflows:
     jobs:
       - test
       - docker-upload
+        requires:
+          - test
