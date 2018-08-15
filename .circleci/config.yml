@@ -70,7 +70,7 @@ jobs:
             . venv/bin/activate
             container_tag=$DOCKER_USER"/fading_suns_dice"
             docker build -t $container_tag .
-            docker login -u $DOCKER_USER -p $DOCKER_PWD
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push $container_tag
 
 workflows:
