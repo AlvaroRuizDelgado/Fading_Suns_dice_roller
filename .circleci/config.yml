@@ -72,6 +72,6 @@ workflows:
   test-and-upload-container:
     jobs:
       - test
-      - docker-upload
+      - docker-upload:
         requires:
           - test
