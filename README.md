@@ -1,4 +1,6 @@
-#Fading Suns 2E dice roller
+# Fading Suns 2E dice roller
+
+[![CircleCI](https://circleci.com/gh/AlvaroRuizDelgado/Fading_Suns_dice_roller.svg?style=svg)](https://circleci.com/gh/AlvaroRuizDelgado/Fading_Suns_dice_roller)
 
 Script to roll dice for the 1st and 2nd editions of the roleplaying game.
 
