@@ -32,13 +32,13 @@ class TestRoll(unittest.TestCase):
     def test_help(self):
         with self.assertRaises(SystemExit) as cm:
             roll([])
-        self.assertEquals(cm.exception.code, 0)
+        self.assertEqual(cm.exception.code, 0)
         with self.assertRaises(SystemExit) as cm:
             roll(['-h'])
-        self.assertEquals(cm.exception.code, 0)
+        self.assertEqual(cm.exception.code, 0)
         with self.assertRaises(SystemExit) as cm:
             roll(['--help'])
-        self.assertEquals(cm.exception.code, 0)
+        self.assertEqual(cm.exception.code, 0)
 
     def test_wrong_input(self):
         with self.assertRaises(SystemExit) as cm:
