@@ -32,18 +32,18 @@ class TestRoll(unittest.TestCase):
     def test_help(self):
         with self.assertRaises(SystemExit) as cm:
             roll([])
-        self.assertEqual(cm.exception.code, 0)
+        self.assertEqual(0, cm.exception.code)
         with self.assertRaises(SystemExit) as cm:
             roll(['-h'])
-        self.assertEqual(cm.exception.code, 0)
+        self.assertEqual(0, cm.exception.code)
         with self.assertRaises(SystemExit) as cm:
             roll(['--help'])
-        self.assertEqual(cm.exception.code, 0)
+        self.assertEqual(0, cm.exception.code)
 
     def test_wrong_input(self):
         with self.assertRaises(SystemExit) as cm:
             roll(['d15', 10])
-        self.assertEqual(cm.exception.code, 1)
+        self.assertEqual(1, cm.exception.code)
 
     @mock.patch('roll.randint')
     def test_d20_working_mock(self, mock_randint):
@@ -55,8 +55,8 @@ class TestRoll(unittest.TestCase):
     def test_d20_test(self, mock_randint):
         for expectation in self.examples_d20:
             mock_randint.return_value = expectation['die_roll']
-            result = roll(['d20', expectation['difficulty']])
-            test_result(self, result, expectation)
+            actual = roll(['d20', expectation['difficulty']])
+            test_result(self, expectation, actual)
 
     @mock.patch('roll.randint')
     def test_d6_working_mock(self, mock_randint):
@@ -68,19 +68,19 @@ class TestRoll(unittest.TestCase):
     def test_d6_test(self, mock_randint):
         for expectation in self.examples_d6:
             mock_randint.return_value = expectation['die_roll']
-            result = roll(['d6', expectation['dice_number'], '-d', expectation['difficulty']])
-            test_result(self, result, expectation)
+            actual = roll(['d6', expectation['dice_number'], '-d', expectation['difficulty']])
+            test_result(self, expectation, actual)
 
-def test_result(self, result, expectation):
-    self.assertEqual( result['die_range'],      expectation['die_range'] )
-    self.assertEqual( result['dice_number'],    expectation['dice_number'] )
-    self.assertEqual( result['difficulty'],     expectation['difficulty'] )
-    self.assertEqual( result['die_roll'],       expectation['die_roll'] )
-    if result['die_range'] == 20:
-        self.assertEqual( result['victory_points'], expectation['victory_points'] )
-        self.assertEqual( result['victory_dice'],   expectation['victory_dice'] )
-    elif result['die_range'] == 6:
-        self.assertEqual( result['success_rolls'], expectation['success_rolls'] )
+def test_result(self, expectation, actual):
+    self.assertEqual( expectation['die_range'],   actual['die_range'] )
+    self.assertEqual( expectation['dice_number'], actual['dice_number'] )
+    self.assertEqual( expectation['difficulty'],  actual['difficulty'] )
+    self.assertEqual( expectation['die_roll'],    actual['die_roll'] )
+    if actual['die_range'] == 20:
+        self.assertEqual( expectation['victory_points'], actual['victory_points'] )
+        self.assertEqual( expectation['victory_dice'],   actual['victory_dice'] )
+    elif actual['die_range'] == 6:
+        self.assertEqual( expectation['success_rolls'], actual['success_rolls'] )
 
 if __name__ == '__main__':
     unittest.main()
