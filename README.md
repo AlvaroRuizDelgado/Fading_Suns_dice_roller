@@ -68,5 +68,7 @@ coverage html
 open htmlcov/index.html
 ```
 
+Then, instead of './roll d20 10' --> 'docker run --rm -it fading_suns_dice d20 10'.
+
 You can also pull the container from dockerhub:
 https://hub.docker.com/r/alpacarider/fading_suns_dice/
