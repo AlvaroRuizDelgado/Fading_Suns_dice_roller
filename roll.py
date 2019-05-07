@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-# Last edited: 18/08/14
+# Last edited: 19/05/07
 
 import sys
 import math
@@ -22,15 +22,24 @@ def roll(argv):
     # Get the arguments
     roll_type = argv.pop(0)
     if (roll_type == "d20"):
+        if (len(argv) == 0):
+            print("Error: insufficient arguments")
+            print_help()
+            sys.exit(1)
         die_range = 20
         dice_number = 1
         difficulty = int(argv.pop(0))
     elif (roll_type == "d6"):
+        if (len(argv) == 0):
+            print("Error: insufficient arguments")
+            print_help()
+            sys.exit(1)
         die_range = 6
         dice_number = int(argv.pop(0))
         difficulty = 4
     else:
         print("Error: The accepted values are 'd20' and 'd6'")
+        print_help();
         sys.exit(1)
 
     while len(argv) > 0:
@@ -100,16 +109,16 @@ def roll(argv):
                     'success_rolls': success_rolls }   )
 
 def print_help():
-    print("    Pass the type of die to roll, followed by either")
-    print("      - d20 difficulty")
-    print("      - d6  number of dice")
-    print("    Other options:")
-    print("      -d, --difficulty, set the difficulty, relevant for the 'd6' dice sometimes.")
-    print("    Examples:")
-    print("        ./roll d20 15")
-    print("        ./roll d20 24")
-    print("        ./roll d6 6")
-    print("        ./roll d6 7 -d 3")
+    print("Usage: Pass the type of die to roll, followed by either 'difficulty' or 'number of dice' depending on the tipe of dice")
+    print("  - d20 difficulty")
+    print("  - d6  number of dice")
+    print("Other options:")
+    print("  -d, --difficulty, set the difficulty, relevant for the 'd6' dice sometimes.")
+    print("Examples:")
+    print("  ./roll d20 15")
+    print("  ./roll d20 24")
+    print("  ./roll d6 6")
+    print("  ./roll d6 7 -d 3")
 
 if __name__ == "__main__":
    roll(sys.argv[1:])

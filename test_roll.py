@@ -44,6 +44,12 @@ class TestRoll(unittest.TestCase):
         with self.assertRaises(SystemExit) as cm:
             roll(['d15', 10])
         self.assertEqual(1, cm.exception.code)
+        with self.assertRaises(SystemExit) as cm:
+            roll(['d10'])
+        self.assertEqual(1, cm.exception.code)
+        with self.assertRaises(SystemExit) as cm:
+            roll(['d6'])
+        self.assertEqual(1, cm.exception.code)
 
     @mock.patch('roll.randint')
     def test_d20_working_mock(self, mock_randint):
