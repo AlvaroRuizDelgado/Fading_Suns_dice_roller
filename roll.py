@@ -39,7 +39,7 @@ def roll(argv):
         difficulty = 4
     else:
         print("Error: The accepted values are 'd20' and 'd6'")
-        print_help();
+        print_help()
         sys.exit(1)
 
     while len(argv) > 0:
